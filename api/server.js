@@ -20,7 +20,7 @@ const knex = require('../data/db-config')
  */
 
 const server = express();
-
+server.use(express.json());
 server.use(session({
   name: 'chocolatechip',
   secret: 'shh',
@@ -48,7 +48,7 @@ server.get("/", (req, res) => {
   res.json({ api: "up" });
 });
 server.use(helmet());
-server.use(express.json());
+
 server.use(cors());
 
 
