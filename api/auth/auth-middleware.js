@@ -49,7 +49,9 @@ async function checkUsernameFree(req, res, next) {
 async function checkUsernameExists(req, res, next) {
   try{
     const existing = await User.findBy({ username: req.body.username })
+    console.log(existing)
     if(existing.length){
+      req.user = existing[0]
       next()
     }else{
       next({ status: 401, message: "Invalid credentials"})
@@ -68,8 +70,8 @@ async function checkUsernameExists(req, res, next) {
   }
 */
 function checkPasswordLength(req, res, next) {
-if(req.body.password.length < 3 || !req.body.password){
-next({ status: 422, message:"Password must be longer than 3 chars"})
+if(req.body.password === undefined || req.body.password.length < 3){
+  next({ status: 422, message:"Password must be longer than 3 chars"})
 }else{
   next()
 }
