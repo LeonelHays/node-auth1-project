@@ -3,7 +3,11 @@
 const router = require('express').Router()
 const bcrypt = require('bcryptjs')
 const User = require('../users/users-model')
-const {checkUsernameFree, checkPasswordLength, checkUsernameExists} = require('./auth-middleware')
+const {
+   checkUsernameFree,
+   checkPasswordLength,
+  checkUsernameExists,
+} = require('./auth-middleware')
 
 /**
   1 [POST] /api/auth/register { "username": "sue", "password": "1234" }
@@ -27,7 +31,7 @@ const {checkUsernameFree, checkPasswordLength, checkUsernameExists} = require('.
     "message": "Password must be longer than 3 chars"
   }
  */
-  router.post('/register', checkUsernameFree, checkPasswordLength,async (req, res, next) => {
+  router.post('/register', checkPasswordLength, checkUsernameFree, async (req, res, next) => {
     try{
       const { username, password } = req.body
       const hash = bcrypt.hashSync(password, 6)
